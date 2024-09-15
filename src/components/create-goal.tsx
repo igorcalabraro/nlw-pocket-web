@@ -32,7 +32,7 @@ type CreateGoalForm = z.infer<typeof createGoalForm>;
 export function CreateGoal() {
   const queryClient = useQueryClient()
   
-  const { register, control, handleSubmit, formState } = useForm<CreateGoalForm>({
+  const { register, control, handleSubmit, formState, reset } = useForm<CreateGoalForm>({
     resolver: zodResolver(createGoalForm),
   });
 
@@ -44,6 +44,8 @@ export function CreateGoal() {
 
     queryClient.invalidateQueries({ queryKey: ["summary"] });
     queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
+
+    reset()
   }
 
   return (
