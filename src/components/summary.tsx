@@ -4,15 +4,17 @@ import { DialogTrigger } from "./ui/dialog";
 import { InOrbitIcon } from "./in-orbit-icon";
 import { Progress, ProgressIndicator } from "./ui/progress-bar";
 import { Separator } from "./ui/separator";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSummary } from "../http/get-summary";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-BR";
 import { PendingGoals } from "./pending-goals";
+import { deleteGoalCompletion } from "../http/delete-goal-completion";
 
 dayjs.locale(ptBR);
 
 export function Summary() {
+  const queryClient = useQueryClient()
   const { data } = useQuery({
     queryKey: ["summary"],
     queryFn: getSummary,
@@ -20,6 +22,13 @@ export function Summary() {
   });
 
   if (!data) return null;
+  
+  async function handleDelete(id: string) {
+    await deleteGoalCompletion(id)
+    
+    queryClient.invalidateQueries({ queryKey: ["summary"] });
+    queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
+  }
 
   const startWeek = dayjs().startOf("week");
   const endWeek = dayjs().endOf("week");
@@ -104,6 +113,7 @@ export function Summary() {
                           <span className="text-zinc-100">"{goal.title}"</span>{" "}
                           às <span className="text-zinc-100">{time}h</span>
                         </span>
+                        <span className="text-sm text-zinc-500 underline cursor-pointer" onClick={() => { handleDelete(goal.id) }}>Desfazer</span>
                       </li>
                     );
                   })}
