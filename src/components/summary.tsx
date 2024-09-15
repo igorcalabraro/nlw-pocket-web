@@ -14,7 +14,7 @@ import { deleteGoalCompletion } from "../http/delete-goal-completion";
 dayjs.locale(ptBR);
 
 export function Summary() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: ["summary"],
     queryFn: getSummary,
@@ -22,10 +22,10 @@ export function Summary() {
   });
 
   if (!data) return null;
-  
+
   async function handleDelete(id: string) {
-    await deleteGoalCompletion(id)
-    
+    await deleteGoalCompletion(id);
+
     queryClient.invalidateQueries({ queryKey: ["summary"] });
     queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
   }
@@ -113,7 +113,15 @@ export function Summary() {
                           <span className="text-zinc-100">"{goal.title}"</span>{" "}
                           às <span className="text-zinc-100">{time}h</span>
                         </span>
-                        <span className="text-sm text-zinc-500 underline cursor-pointer" onClick={() => { handleDelete(goal.id) }}>Desfazer</span>
+                        <button
+                          type="button"
+                          className="text-sm text-zinc-500 underline cursor-pointer"
+                          onClick={() => {
+                            handleDelete(goal.id);
+                          }}
+                        >
+                          Desfazer
+                        </button>
                       </li>
                     );
                   })}
