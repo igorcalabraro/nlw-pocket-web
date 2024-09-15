@@ -105,6 +105,38 @@ export function CreateGoal() {
                         </span>
                         <span className="text-lg leading-none">😎</span>
                       </RadioGroupItem>
+
+                      <RadioGroupItem value="4">
+                        <RadioGroupIndicator />
+                        <span className="text-zinc-300 text-sm font-medium leading-none">
+                          4x na semana
+                        </span>
+                        <span className="text-lg leading-none">😜</span>
+                      </RadioGroupItem>
+
+                      <RadioGroupItem value="5">
+                        <RadioGroupIndicator />
+                        <span className="text-zinc-300 text-sm font-medium leading-none">
+                          5x na semana
+                        </span>
+                        <span className="text-lg leading-none">🤨</span>
+                      </RadioGroupItem>
+
+                      <RadioGroupItem value="6">
+                        <RadioGroupIndicator />
+                        <span className="text-zinc-300 text-sm font-medium leading-none">
+                          6x na semana
+                        </span>
+                        <span className="text-lg leading-none">🤯</span>
+                      </RadioGroupItem>
+
+                      <RadioGroupItem value="7">
+                        <RadioGroupIndicator />
+                        <span className="text-zinc-300 text-sm font-medium leading-none">
+                          Todos os dias da semana
+                        </span>
+                        <span className="text-lg leading-none">🔥</span>
+                      </RadioGroupItem>
                     </RadioGroup>
                   );
                 }}
