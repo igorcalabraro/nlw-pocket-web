@@ -21,31 +21,29 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const createGoalForm = z.object({
   title: z.string().min(1, "Title must be a least 1 character"),
-  desiredWeeklyFrequency: z.coerce
-    .number()
-    .min(1)
-    .max(7),
+  desiredWeeklyFrequency: z.coerce.number().min(1).max(7),
 });
 
 type CreateGoalForm = z.infer<typeof createGoalForm>;
 
 export function CreateGoal() {
-  const queryClient = useQueryClient()
-  
-  const { register, control, handleSubmit, formState, reset } = useForm<CreateGoalForm>({
-    resolver: zodResolver(createGoalForm),
-  });
+  const queryClient = useQueryClient();
+
+  const { register, control, handleSubmit, formState, reset } =
+    useForm<CreateGoalForm>({
+      resolver: zodResolver(createGoalForm),
+    });
 
   async function handleCreateGoal(data: CreateGoalForm) {
     await createGoal({
       title: data.title,
-      desiredWeeklyFrequency: data.desiredWeeklyFrequency
-    })
+      desiredWeeklyFrequency: data.desiredWeeklyFrequency,
+    });
 
     queryClient.invalidateQueries({ queryKey: ["summary"] });
     queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
 
-    reset()
+    reset();
   }
 
   return (
@@ -79,7 +77,9 @@ export function CreateGoal() {
               />
 
               {formState.errors.title && (
-                <p className="text-red-400 text-sm">{formState.errors.title.message}</p>
+                <p className="text-red-400 text-sm">
+                  {formState.errors.title.message}
+                </p>
               )}
             </div>
             <div className="flex flex-col gap-2">
